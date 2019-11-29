@@ -1,6 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
-<header><title>This is title</title></header>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Listado</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet"    href="css/bootstrap.css" >
+</head>
 <body>
 
 <!-- Navigation -->
@@ -14,30 +24,51 @@
                 </a>
             </li>
             <li class="nav-item active">
-                <a class="nav-link" href="/formulario">Agregar
+                <a class="nav-link" href="/create">Agregar
                     <span class="sr-only">(current)</span>
                 </a>
             </li>
         </ul>
     </div>
 </nav>
-<div class="container">
-<#list lista as estudiante>
-    <div class="card mb-4">
-        <div class="card-body">
-            <h2 class="card-title">${estudiante.matricula}</h2>
-            <#if estudiante.nombre?exists>
-                <p class="card-text">${estudiante.nombre}</p>
-            </#if>
-            <#if estudiante.correo?exists>
-                <p class="card-text">${estudiante.correo}</p>
-            </#if>
-            <#if estudiante.carrera?exists>
-                <p class="card-text">${estudiante.carrera}</p>
-            </#if>
-        </div>
-    </div>
-</#list>
-    </div>
+
+<!-- Blog Post -->
+<table class="table">
+    <thead class="thead-light">
+    <tr>
+        <th scope="col">Matricula</th>
+        <th scope="col">Nombre</th>
+        <th scope="col">Correo</th>
+        <th scope="col">Carrera</th>
+    </tr>
+    </thead>
+    <tbody>
+    <#list lista as estudiante>
+        <tr>
+            <td>
+                <#if estudiante.matricula?exists>
+                    <p class="card-text">${estudiante.matricula}</p>
+                </#if>
+            </td>
+            <td>
+                <#if estudiante.nombre?exists>
+                    <p class="card-text">${estudiante.nombre}</p>
+                </#if>
+            </td>
+            <td>
+                <#if estudiante.correo?exists>
+                    <p class="card-text">${estudiante.correo}</p>
+                </#if>
+            </td>
+            <td>
+                <#if estudiante.carrera?exists>
+                    <p class="card-text">${estudiante.carrera}</p>
+                </#if>
+            </td>
+        </tr>
+
+    </#list>
+    </tbody>
+</table>
 </body>
 </html>

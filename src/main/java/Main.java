@@ -3,6 +3,8 @@ import freemarker.template.Template;
 import kong.unirest.HttpResponse;
 import kong.unirest.Unirest;
 import freemarker.template.Configuration;
+import spark.ModelAndView;
+import spark.template.freemarker.FreeMarkerEngine;
 
 import static spark.Spark.*;
 import static spark.Spark.get;
@@ -35,13 +37,11 @@ public class Main {
                     .queryString("apiKey", "123")
                     .asString();
             Estudiante[] estudiantes = new Gson().fromJson(res.getBody(), (Type) Estudiante[].class) ;
-            Map<String, Object> lista = new HashMap<>();
-            lista.put("estudiantes", estudiantes);
-
             Template template = configuration.getTemplate("views/listar.ftl");
+            Map<String, Object> mapList = new HashMap<>();
             StringWriter writer = new StringWriter();
-            template.process(null,writer);
-
+            mapList.put("lista",estudiantes);
+            template.process(mapList,writer);
             return  writer;
         });
 

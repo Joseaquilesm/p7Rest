@@ -28,7 +28,7 @@
                 </a>
             </li>
             <li class="nav-item active">
-                <a class="nav-link" href="/formulario">Agregar
+                <a class="nav-link" href="/create">Agregar
                     <span class="sr-only">(current)</span>
                 </a>
             </li>
@@ -45,14 +45,14 @@
             <input type="text" class="form-control" name="nombre" id="nombre" placeholder="Ingrese su nombre">
         </div>
         <div class="form-group">
-            <label for="correo">Email</label>
+            <label for="correo">Correo</label>
             <input type="text" class="form-control" name="correo" id="correo" placeholder="">
         </div>
         <div class="form-group">
             <label for="carrera">Carrera</label>
             <input type="text" class="form-control" name="carrera" id="carrera" placeholder="Ingrese su carrera">
         </div>
-        <div class="text-right">
+        <div class="col-md-4 text-center"> >
             <button  type="submit" class="btn btn-primary">Agregar Estudiante</button>
         </div>
     </div>
