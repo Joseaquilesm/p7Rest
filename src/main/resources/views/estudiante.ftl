@@ -11,12 +11,13 @@
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet"    href="css/bootstrap.css" >
 </head>
+
 <body>
 
 <!-- Navigation -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
     <div class="container">
-        <h1 class="navbar-brand">Listado</h1>
+        <h1 class="navbar-brand">Estudiante</h1>
         <ul class="navbar-nav ml-auto">
             <li class="nav-item active">
                 <a class="nav-link" href="/crud">Lista
@@ -40,12 +41,11 @@
         <th scope="col">Nombre</th>
         <th scope="col">Correo</th>
         <th scope="col">Carrera</th>
-        <th scope="col">  </th>
     </tr>
     </thead>
     <tbody>
-    <#list lista as estudiante>
         <tr>
+            <#if estudiante?exists>
             <td>
                 <#if estudiante.matricula?exists>
                     <p class="card-text">${estudiante.matricula}</p>
@@ -66,15 +66,8 @@
                     <p class="card-text">${estudiante.carrera}</p>
                 </#if>
             </td>
-            <td>
-                <form action="/estudiante" method="get">
-                    <input type="hidden" name="matricula" value=${estudiante.matricula}>
-                    <button type="submit"  class="btn btn-secondary" id="matricula" name="matricula">Ver mas</button>
-                </form>
-            </td>
+            </#if>
         </tr>
-
-    </#list>
     </tbody>
 </table>
 </body>

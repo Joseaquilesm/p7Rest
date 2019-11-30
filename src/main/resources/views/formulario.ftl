@@ -28,7 +28,7 @@
                 </a>
             </li>
             <li class="nav-item active">
-                <a class="nav-link" href="/create">Agregar
+                <a class="nav-link" href="/formulario">Agregar Estudiante
                     <span class="sr-only">(current)</span>
                 </a>
             </li>
@@ -38,7 +38,9 @@
 
 <!-- Page Content -->
 
-<form action="/created" method="post" class="container"><br>
+
+
+<form action="/created" method="post" class="container" style="width: 500px !important;"><br>
     <div class="shadow-lg p-3 mb-5 bg-white rounded">
         <div class="form-group">
             <label for="nombre">Nombre</label>
@@ -46,19 +48,19 @@
         </div>
         <div class="form-group">
             <label for="correo">Correo</label>
-            <input type="text" class="form-control" name="correo" id="correo" placeholder="">
+            <input type="text" class="form-control" name="correo" id="correo" placeholder="Ingrese su correo">
         </div>
         <div class="form-group">
             <label for="carrera">Carrera</label>
             <input type="text" class="form-control" name="carrera" id="carrera" placeholder="Ingrese su carrera">
         </div>
-        <div class="col-md-4 text-center"> >
+            <div class="text-center">
             <button  type="submit" class="btn btn-primary">Agregar Estudiante</button>
+        </div>
         </div>
     </div>
 </form>
 
 
 </body>
-
 </html>

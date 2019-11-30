@@ -4,6 +4,7 @@ import kong.unirest.HttpResponse;
 import kong.unirest.Unirest;
 import freemarker.template.Configuration;
 import spark.ModelAndView;
+import spark.Spark;
 import spark.template.freemarker.FreeMarkerEngine;
 
 import static spark.Spark.*;
@@ -21,49 +22,66 @@ public class Main {
         Configuration configuration = new Configuration(Configuration.VERSION_2_3_29);
         configuration.setClassForTemplateLoading(Main.class, "/");
         staticFiles.location("/public");
-        port(5678);
-        get("/index", (request, response) -> {
+        port(4568);
 
-            Template template = configuration.getTemplate("views/listar.ftl");
+
+
+        // listar
+        Spark.get("/crud", (request, response) -> {
+            //call el server de camacho por el json
+            HttpResponse<String> respuesta = Unirest.get("http://localhost:4567/rest/estudiantes/")
+                    .header("accept", "application/json")
+                    .queryString("apiKey","123")
+                    .asString();
+            //process el json y asignarselo a un hMap
+            Estudiante[] estudianteList = new Gson().fromJson(respuesta.getBody(),(Type) Estudiante[].class);
+            Map<String, Object> mapList = new HashMap<>();
+            mapList.put("lista", estudianteList);
+
+            //Call la template
+            Template temp = configuration.getTemplate("views/listar.ftl");
             StringWriter writer = new StringWriter();
-            template.process(null,writer);
-
-            return  writer;
+            temp.process(mapList, writer);
+            return writer;
         });
 
-        get("/crud", (request, response) -> {
-            HttpResponse<String> res = Unirest.get("http://localhost:4567/rest/estudiantes/")
+        //select student
+
+        Spark.get("/estudiante", (request, response) -> {
+            HttpResponse<String> res = Unirest.get("http://localhost:4567/rest/estudiantes/{matricula}")
                     .header("accept", "application/json")
                     .queryString("apiKey", "123")
+                    .routeParam("matricula", request.queryParams("matricula"))
                     .asString();
-            Estudiante[] estudiantes = new Gson().fromJson(res.getBody(), (Type) Estudiante[].class) ;
-            Template template = configuration.getTemplate("views/listar.ftl");
-            Map<String, Object> mapList = new HashMap<>();
-            StringWriter writer = new StringWriter();
-            mapList.put("lista",estudiantes);
-            template.process(mapList,writer);
-            return  writer;
+            // procesar el json y asignarselo a un hMap
+            Estudiante estudiante = new Gson().fromJson(res.getBody(), (Type) Estudiante.class);
+            Map<String, Object> est = new HashMap<>();
+            StringWriter wEstudiante = new StringWriter();
+            est.put("estudiante",estudiante);
+
+            //Call template
+            Template tempEstudiante = configuration.getTemplate("views/estudiante.ftl");
+            tempEstudiante.process(est,wEstudiante);
+            return  wEstudiante;
         });
 
-        get("/crud/:mat", (request, response) -> {
-            HttpResponse<String> res = Unirest.get("http://localhost:4567/rest/estudiantes/")
-                    .queryString("matricula", request.params("mat"))
+        //Create student
+        Spark.get("/formulario", (request, response) -> {
+
+            //Testing el error del servidor
+            HttpResponse<String> respuesta = Unirest.get("http://localhost:4567/rest/estudiantes/")
+                    .header("accept", "application/json")
+                    .queryString("apiKey","123")
                     .asString();
-            System.out.println("La respuesta: "+res.getStatus());
-            System.out.println("La salida: "+ res.getBody());
-            return res.getBody();
+
+            //Testing done
+            Template tempForm = configuration.getTemplate("views/formulario.ftl");
+            StringWriter wForm = new StringWriter();
+            tempForm.process(null,wForm);
+            return  wForm;
         });
 
-        //Create
-        get("/create", (request, response) -> {
-
-            Template template = configuration.getTemplate("views/formulario.ftl");
-            StringWriter writer = new StringWriter();
-            template.process(null,writer);
-
-            return  writer;
-        });
-        post("/created", (request, response) -> {
+        Spark.post("/created", (request, response) -> {
             String nombre = request.queryParams("nombre");
             String correo = request.queryParams("correo");
             String carrera = request.queryParams("carrera");
