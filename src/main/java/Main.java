@@ -19,6 +19,7 @@ import java.util.Map;
 public class Main {
     public static void main(String[] args) {
 
+        //Aquiles creo otro repo y copio mi codigo, por eso no aparece mi colaboracion. Mi codigo: el select y listar.
         Configuration configuration = new Configuration(Configuration.VERSION_2_3_29);
         configuration.setClassForTemplateLoading(Main.class, "/");
         staticFiles.location("/public");
