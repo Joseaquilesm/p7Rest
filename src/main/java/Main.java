@@ -24,29 +24,7 @@ public class Main {
         staticFiles.location("/public");
         port(4568);
 
-
-
-        // listar
-        Spark.get("/crud", (request, response) -> {
-            //call el server de camacho por el json
-            HttpResponse<String> respuesta = Unirest.get("http://localhost:4567/rest/estudiantes/")
-                    .header("accept", "application/json")
-                    .queryString("apiKey","123")
-                    .asString();
-            //process el json y asignarselo a un hMap
-            Estudiante[] estudianteList = new Gson().fromJson(respuesta.getBody(),(Type) Estudiante[].class);
-            Map<String, Object> mapList = new HashMap<>();
-            mapList.put("lista", estudianteList);
-
-            //Call la template
-            Template temp = configuration.getTemplate("views/listar.ftl");
-            StringWriter writer = new StringWriter();
-            temp.process(mapList, writer);
-            return writer;
-        });
-
-        //select student
-
+        //select student // by Kiana
         Spark.get("/estudiante", (request, response) -> {
             HttpResponse<String> res = Unirest.get("http://localhost:4567/rest/estudiantes/{matricula}")
                     .header("accept", "application/json")
@@ -79,6 +57,25 @@ public class Main {
             StringWriter wForm = new StringWriter();
             tempForm.process(null,wForm);
             return  wForm;
+        });
+
+        // listar //by Kiana
+        Spark.get("/crud", (request, response) -> {
+            //call el server de camacho por el json
+            HttpResponse<String> respuesta = Unirest.get("http://localhost:4567/rest/estudiantes/")
+                    .header("accept", "application/json")
+                    .queryString("apiKey","123")
+                    .asString();
+            //process el json y asignarselo a un hMap
+            Estudiante[] estudianteList = new Gson().fromJson(respuesta.getBody(),(Type) Estudiante[].class);
+            Map<String, Object> mapList = new HashMap<>();
+            mapList.put("lista", estudianteList);
+
+            //Call la template
+            Template temp = configuration.getTemplate("views/listar.ftl");
+            StringWriter writer = new StringWriter();
+            temp.process(mapList, writer);
+            return writer;
         });
 
         Spark.post("/created", (request, response) -> {
